@@ -13,6 +13,7 @@ package com.edu.umanizales.listase.modelo;
 public class ListaSE {
 
     private Nodo cabeza;
+    private Nodo cabezaOriginal;
 
     public ListaSE() {    
     }     
@@ -54,6 +55,7 @@ public class ListaSE {
             //Ubicado o parado en el último
             temp.setSiguiente(new Nodo(dato));
         }
+         cabezaOriginal = cabeza; 
     }
     
     
@@ -131,63 +133,82 @@ public class ListaSE {
         }
     }
     
-    
-    //Metodo para organizar masculino
-    
-     public void organizarMasculino() {
+    public void eliminarNodo(Perro perro) {
+
+        Nodo temp = cabeza;
+        Nodo temp2;
+
+        if (cabeza.getDato().getNumero() == perro.getNumero()) {
+
+            cabeza = cabeza.getSiguiente();
+        }
+        while (temp.getSiguiente() != null) {
+
+            temp2 = temp;       //Guardo el anterior
+            temp = temp.getSiguiente();
+
+            if (perro.getNumero() == temp.getDato().getNumero()) {
+
+                temp2.setSiguiente(temp.getSiguiente());
+                temp = temp2;
+            }
+        }
+        //mostrarListadoPerros();
+    }
+
+      public void ordenarGenero(String generoWeb) {
+
+            if (cabeza != null) {
+
+                ListaSE listaTemporal = new ListaSE();
+
+                for (int i = 0; i <= 1; i++) {
+                    Nodo temp = cabeza;
+                    while (temp != null) {
+
+                        if (temp.getDato().getGenero().equals(generoWeb)) {
+                            listaTemporal.adicionarNodo(temp.getDato());//                                         
+                        }
+                        temp = temp.getSiguiente();
+                    }
+
+                    if (generoWeb.equals("macho")) {
+                        generoWeb = "hembra";
+                    } else {
+                        generoWeb = "macho";
+                    }
+
+                }
+
+                cabeza = listaTemporal.getCabeza();
+//         mostrarListadoPerros();
+//        System.out.println("lista desosrdenada: ");
+//        cabeza = cabezaOriginal;
+//         mostrarListadoPerros();
+            }
+//        }
+
+    }
+
+ 
+    public Perro buscarPosicion(int posicion) {
 
         if (cabeza != null) {
 
-            ListaSE listaTemporal = new ListaSE();
-
             Nodo temp = cabeza;
+            int cont = 1;
 
-            while (temp != null)
-            {
-                if (temp.getDato().getGenero()== "M") {
+            while (posicion != cont) {
 
-                    listaTemporal.adicionarNodoAlInicio(temp.getDato());
-                } else {
-
-                    listaTemporal.adicionarNodo(temp.getDato());
-                }
-
-                temp = temp.getSiguiente();
-
+                temp = temp.getSiguiente();// Ayudante pase l siguiente perro
+                cont++;
             }
-
-            cabeza = listaTemporal.getCabeza();
-
+            return temp.getDato();
         }
 
+        return null;
     }
-       //Metodo para organizar Hembra
-     
-     public void organizarHembra() {
 
-        if (cabeza != null) {
-
-            ListaSE listaTemporal = new ListaSE();
-
-            Nodo temp = cabeza;
-
-            while (temp != null)
-            {
-                if (temp.getDato().getGenero()== "H") {
-
-                    listaTemporal.adicionarNodoAlInicio(temp.getDato());
-                } else {
-
-                    listaTemporal.adicionarNodo(temp.getDato());
-                }
-
-                temp = temp.getSiguiente();
-
-            }
-
-            cabeza = listaTemporal.getCabeza();
-
-        }
-
-    }
+    
+    
 }
